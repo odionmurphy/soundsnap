@@ -1,35 +1,62 @@
-# SoundSnap 🎵
 
-A React Native mobile app that identifies music playing around you in real time.
+# SoundSnap Backend 🎵
 
-## Live Demo
-> Mobile app — run locally with Expo
+REST API backend for SoundSnap, a music recognition app. Accepts an audio file, identifies the song using the AudD API, and stores results in a local SQLite database.
 
-## What it does
-- Listens to audio and identifies the song playing nearby
-- Displays artist, album, release date, genre, and popularity score
-- Links directly to the track on Spotify and Apple Music
+## Live API
+https://soundsnap-backend-production.up.railway.app
+## Endpoints
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| POST | `/api/recognize` | Upload an audio file to identify a song |
+| GET | `/api/history` | Get recently recognized songs |
+| DELETE | `/api/history/:id` | Delete a specific history item |
+| DELETE | `/api/history` | Clear all history |
+| GET | `/api/health` | Check server status |
+
+### POST `/api/recognize`
+Send audio as `multipart/form-data` with field name `audio`. Max file size: 10MB.
+
+**Response:**
+```json
+{
+  "success": true,
+  "result": {
+    "title": "Song Title",
+    "artist": "Artist Name",
+    "album": "Album Name"
+  },
+  "source": "audd"
+}
+```
 
 ## Tech Stack
-- React Native + Expo (mobile frontend)
-- Node.js + Railway (backend API)
-- Music Recognition REST API
+- **Node.js + Express** — server framework
+- **AudD API** — music recognition service
+- **SQLite** — local database for history
+- **Multer** — handles audio file uploads
+- **Railway** — cloud deployment
 
-## Getting Started
+## Features
+- Audio hashing + in-memory caching (avoids duplicate API calls for the same audio)
+- Rate limiting on recognize and history routes
+- Recognition history stored in SQLite with add/delete/clear support
+
+## Run Locally
 
 ```bash
-# Install dependencies
 npm install
 
-# Start the app
-npx expo start
+AUDD_API_TOKEN=19971c82c34007d4c8023c9a661fa611
+
+```bash
+node server.js
 ```
 
-Scan the QR code with the Expo Go app on your phone.
+Server runs at `http://localhost:3000`
 
-## Environment Variables
-Create a `.env` file in the root:
+PORT=3000
 ```
-API_URL=your_railway_backend_url
-MUSIC_API_KEY=your_api_key
-```
+
+Create a `.env` file:
