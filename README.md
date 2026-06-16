@@ -43,20 +43,6 @@ Send audio as `multipart/form-data` with field name `audio`. Max file size: 10MB
 - Rate limiting on recognize and history routes
 - Recognition history stored in SQLite with add/delete/clear support
 
-## Run Locally
 
-```bash
-npm install
 
-AUDD_API_TOKEN=19971c82c34007d4c8023c9a661fa611
 
-```bash
-node server.js
-```
-
-Server runs at `http://localhost:3000`
-
-PORT=3000
-```
-
-Create a `.env` file:
